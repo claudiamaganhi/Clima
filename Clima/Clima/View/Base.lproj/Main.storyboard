@@ -20,7 +20,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                             </imageView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="YrL-jk-fnI">
-                                <rect key="frame" x="40" y="74" width="334" height="321.5"/>
+                                <rect key="frame" x="40" y="74" width="334" height="271.5"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" translatesAutoresizingMaskIntoConstraints="NO" id="KEt-YU-2VU">
                                         <rect key="frame" x="0.0" y="0.0" width="334" height="40"/>
@@ -87,30 +87,52 @@
                                         <color key="textColor" name="weatherColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fzf-Od-Pwy">
-                                        <rect key="frame" x="0.0" y="271.5" width="334" height="50"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fzf-Od-Pwy">
+                                        <rect key="frame" x="0.0" y="271.5" width="334" height="0.0"/>
                                         <fontDescription key="fontDescription" name="Charter-Roman" family="Charter" pointSize="25"/>
                                         <color key="textColor" name="weatherColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
                             </stackView>
+                            <view hidden="YES" alpha="0.69999999999999996" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Eyz-t6-xEE">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                                <subviews>
+                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="DeT-nU-0Ex">
+                                        <rect key="frame" x="177" y="418" width="60" height="60"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="60" id="6q0-R3-KLC"/>
+                                            <constraint firstAttribute="height" constant="60" id="dIu-xB-YTJ"/>
+                                        </constraints>
+                                    </activityIndicatorView>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstItem="DeT-nU-0Ex" firstAttribute="centerY" secondItem="Eyz-t6-xEE" secondAttribute="centerY" id="JKD-HV-Ld2"/>
+                                    <constraint firstItem="DeT-nU-0Ex" firstAttribute="centerX" secondItem="Eyz-t6-xEE" secondAttribute="centerX" id="VpV-gv-nAA"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstAttribute="bottom" secondItem="kq3-4j-2HZ" secondAttribute="bottom" id="6Tx-01-xzt"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Eyz-t6-xEE" secondAttribute="trailing" id="6sG-eF-kvi"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="kq3-4j-2HZ" secondAttribute="trailing" id="Bj5-wv-1dp"/>
+                            <constraint firstItem="Eyz-t6-xEE" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="Ecc-aE-WFG"/>
                             <constraint firstItem="YrL-jk-fnI" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="30" id="JCd-WP-m9N"/>
                             <constraint firstItem="YrL-jk-fnI" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="40" id="KFo-Rm-E9I"/>
                             <constraint firstItem="kq3-4j-2HZ" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="acW-76-PTy"/>
                             <constraint firstItem="kq3-4j-2HZ" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="bE4-lf-xhk"/>
                             <constraint firstAttribute="trailing" secondItem="YrL-jk-fnI" secondAttribute="trailing" constant="40" id="fL0-lY-mAC"/>
+                            <constraint firstAttribute="bottom" secondItem="Eyz-t6-xEE" secondAttribute="bottom" id="lm3-2w-dBq"/>
+                            <constraint firstItem="Eyz-t6-xEE" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="nxP-3O-0sm"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
                         <outlet property="cityLabel" destination="fzf-Od-Pwy" id="ocf-Pm-goO"/>
                         <outlet property="conditionImageView" destination="pJE-9z-1Vq" id="wVO-vs-I4u"/>
+                        <outlet property="loadingView" destination="Eyz-t6-xEE" id="XS2-uM-QOU"/>
                         <outlet property="searchTextField" destination="BEe-KS-nrA" id="njz-OZ-EwP"/>
                         <outlet property="temperatureLabel" destination="1IZ-Oy-uSS" id="9h5-j6-yl6"/>
                     </connections>

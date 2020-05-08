@@ -16,6 +16,9 @@ class ClimaViewController: UIViewController {
     @IBOutlet weak var cityLabel: UILabel!
     @IBOutlet weak var searchTextField: UITextField!
     
+    @IBOutlet weak var loadingView: UIView!
+    
+    
     var weatherManager = WeatherManager()
     var locationManager = CLLocationManager()
 
@@ -23,11 +26,13 @@ class ClimaViewController: UIViewController {
         super.viewDidLoad()
         setDelegates()
         locationManager.requestWhenInUseAuthorization()
+        loadingView.isHidden = false
         locationManager.requestLocation()
     }
 
     @IBAction func search(_ sender: UIButton) {
         if searchTextField.text != "" {
+            loadingView.isHidden = false
             guard let city = searchTextField.text else { return }
             weatherManager.fetchWeather(at: city)
             searchTextField.endEditing(true)
@@ -35,6 +40,7 @@ class ClimaViewController: UIViewController {
     }
     
     @IBAction func updateCurrentLocation(_ sender: UIButton) {
+        loadingView.isHidden = false
         locationManager.requestLocation()
     }
     
@@ -64,6 +70,7 @@ extension ClimaViewController: WeatherManagerDelegate {
     
     func didUpdateWeather(_ weather: WeatherModel, _ weatherManager: WeatherManager) {
         DispatchQueue.main.async {
+            self.loadingView.isHidden = true
             self.temperatureLabel.text = "\(weather.temperatureString) °C"
             self.cityLabel.text = "\(weather.cityName) - \(weather.country)"
             self.conditionImageView.image = UIImage(systemName: weather.conditonName)
@@ -73,6 +80,7 @@ extension ClimaViewController: WeatherManagerDelegate {
     
     func didFailWithError(_ error: Error) {
         DispatchQueue.main.async {
+            self.loadingView.isHidden = true
             self.presentErrorAlert(error)
         }
     }
@@ -92,6 +100,7 @@ extension ClimaViewController: UITextFieldDelegate {
     
     func textFieldDidEndEditing(_ textField: UITextField) {
         if searchTextField.text != "" {
+            loadingView.isHidden = false
             guard let city = searchTextField.text else { return }
             weatherManager.fetchWeather(at: city)
             searchTextField.text = ""
