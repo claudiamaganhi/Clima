@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ClimaViewController: UIViewController, WeatherManagerDelegate {
+class ClimaViewController: UIViewController {
     
     @IBOutlet weak var conditionImageView: UIImageView!
     @IBOutlet weak var temperatureLabel: UILabel!
@@ -33,21 +33,37 @@ class ClimaViewController: UIViewController, WeatherManagerDelegate {
     @IBAction func updateLocation(_ sender: UIButton) {
     }
     
+    private func presentErrorAlert(_ error: Error) {
+        let nserror = error as NSError
+        var title: String = ""
+        if nserror.code == 4865 {
+            title = "Could not find this city"
+        } else {
+            title = error.localizedDescription
+        }
+        let alert = UIAlertController(title: title, message: nil, preferredStyle: .alert)
+        let action = UIAlertAction(title: "Try again", style: .cancel, handler: nil)
+        alert.addAction(action)
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+}
+
+extension ClimaViewController: WeatherManagerDelegate {
+    
     func didUpdateWeather(_ weather: WeatherModel, _ weatherManager: WeatherManager) {
         DispatchQueue.main.async {
             self.temperatureLabel.text = "\(weather.temperatureString) °C"
-            self.cityLabel.text = weather.cityName
+            self.cityLabel.text = "\(weather.cityName) - \(weather.country)"
             self.conditionImageView.image = UIImage(systemName: weather.conditonName)
         }
-        
     }
     
+    
     func didFailWithError(_ error: Error) {
-        let alert = UIAlertController(title: nil, message: "Please try again", preferredStyle: .alert)
-        let action = UIAlertAction(title: "Go again", style: .cancel, handler: nil)
-        alert.addAction(action)
-        print(error.localizedDescription)
-        present(alert, animated: true, completion: nil)
+        DispatchQueue.main.async {
+            self.presentErrorAlert(error)
+        }
     }
     
 }

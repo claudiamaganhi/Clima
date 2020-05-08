@@ -25,7 +25,8 @@ struct WeatherManager {
     
     func getCityName(_ cityname: String) -> String {
         let city = cityname.replacingOccurrences(of: " ", with: "+")
-        return city.lowercased()
+        let cityName = city.folding(options: .diacriticInsensitive, locale: .current)
+        return cityName.lowercased()
     }
     
     private func performRequest(urlString: String) {
@@ -54,7 +55,8 @@ struct WeatherManager {
             let id = weatherDecodedData.weather[0].id
             let temperature = weatherDecodedData.main.temp
             let cityName = weatherDecodedData.name
-            let weather = WeatherModel(conditionId: id, temperature: temperature, cityName: cityName)
+            let country = weatherDecodedData.sys.country
+            let weather = WeatherModel(conditionId: id, temperature: temperature, cityName: cityName, country: country)
             
             return weather
             

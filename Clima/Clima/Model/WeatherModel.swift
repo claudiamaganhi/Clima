@@ -13,6 +13,7 @@ struct WeatherModel {
     let conditionId: Int
     let temperature: Double
     let cityName: String
+    let country: String
     
     var temperatureString: String {
         return String(format: "%.0f", temperature.rounded())
