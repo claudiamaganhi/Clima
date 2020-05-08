@@ -34,7 +34,7 @@
                                                 <color key="tintColor" name="weatherColor"/>
                                                 <state key="normal" image="location" catalog="system"/>
                                                 <connections>
-                                                    <action selector="updateLocation:" destination="BYZ-38-t0r" eventType="touchUpInside" id="nTp-G3-oma"/>
+                                                    <action selector="updateCurrentLocation:" destination="BYZ-38-t0r" eventType="touchUpInside" id="nTp-G3-oma"/>
                                                 </connections>
                                             </button>
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Search" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="BEe-KS-nrA">

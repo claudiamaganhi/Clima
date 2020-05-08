@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreLocation
 
 class ClimaViewController: UIViewController {
     
@@ -16,21 +17,25 @@ class ClimaViewController: UIViewController {
     @IBOutlet weak var searchTextField: UITextField!
     
     var weatherManager = WeatherManager()
+    var locationManager = CLLocationManager()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        searchTextField.delegate = self
-        weatherManager.delegate = self
-        
+        setDelegates()
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.requestLocation()
     }
 
     @IBAction func search(_ sender: UIButton) {
-        guard let city = searchTextField.text else { return }
-        weatherManager.fetchWeather(at: city)
-        searchTextField.endEditing(true)
+        if searchTextField.text != "" {
+            guard let city = searchTextField.text else { return }
+            weatherManager.fetchWeather(at: city)
+            searchTextField.endEditing(true)
+        }
     }
     
-    @IBAction func updateLocation(_ sender: UIButton) {
+    @IBAction func updateCurrentLocation(_ sender: UIButton) {
+        locationManager.requestLocation()
     }
     
     private func presentErrorAlert(_ error: Error) {
@@ -45,6 +50,12 @@ class ClimaViewController: UIViewController {
         let action = UIAlertAction(title: "Try again", style: .cancel, handler: nil)
         alert.addAction(action)
         self.present(alert, animated: true, completion: nil)
+    }
+    
+    private func setDelegates() {
+        searchTextField.delegate = self
+        weatherManager.delegate = self
+        locationManager.delegate = self
     }
     
 }
@@ -80,10 +91,27 @@ extension ClimaViewController: UITextFieldDelegate {
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
-        guard let city = searchTextField.text else { return }
-        weatherManager.fetchWeather(at: city)
-        searchTextField.text = ""
+        if searchTextField.text != "" {
+            guard let city = searchTextField.text else { return }
+            weatherManager.fetchWeather(at: city)
+            searchTextField.text = ""
+        }
     }
     
+}
+
+extension ClimaViewController: CLLocationManagerDelegate {
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        if let location = locations.last {
+            locationManager.stopUpdatingLocation()
+            let latitute = location.coordinate.latitude
+            let longitude = location.coordinate.longitude
+            weatherManager.fetchWeather(latitude: latitute, longitude: longitude)
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        print(error)
+    }
 }
 
